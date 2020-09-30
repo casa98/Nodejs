@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Blog | <%= title %></title>
 </head>
 <body>
 
@@ -21,7 +21,17 @@
 
     <div class="blogs content">
         <h2>All blogs</h2>
-        <!-- Here insert dynamic content from db -->
+        <!-- Some dummy data for now -->
+
+        <% if(blogs.length > 0){ %>
+            <% blogs.forEach(blog => { %>
+                <h3 class="title"> <%= blog.title %> </h3>
+                <p class="snippet"> <%= blog.snippet %> </p>
+            <% }) %>
+        <% }else{ %>
+            <p>No blogs to show</p>
+        <% }%>
+
     </div>
     
 </body>
