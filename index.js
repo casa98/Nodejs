@@ -9,6 +9,7 @@ const app = express();
 // Connect to MongoDB
 const mongodb_key = require('./mongo_key');
 const { urlencoded } = require('express');
+const { render } = require('ejs');
 const dbURI = mongodb_key.mongodb_key;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => app.listen(8000))
@@ -63,6 +64,19 @@ app.post('/blogs', (req, res) => {
         .catch((err) => {
             console.log(err);
         });
+});
+
+app.get('/blogs/:id', (req, res) => {
+    // Get the id of the selected blog
+    const id = req.params.id;
+    Blog.findById(id)
+    .then((result) => {
+        // Go to Details view
+        res.render('details', {title: 'Blog details', blog: result});
+    })
+    .catch((err) => {
+        console.log(err);
+    });
 });
 
 app.get('/about', (req, res) => {
