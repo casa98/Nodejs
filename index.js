@@ -25,44 +25,24 @@ app.use(morgan('dev'));
 // MIddleware for Static files
 app.use(express.static('public'));
 
-// Mongoose and Mongo sandbox routes
-app.get('/add-blog', (req, res) => {
-    // Create instance of Blog document and save the blog there
-    const blog = Blog({
-        title: 'New blog',
-        snippet: 'About my new blog',
-        body: 'More about my new blog'
-    });
-    // Now save to db, could take some time, returns a promise
-    blog.save()
+// Routes
+app.get('/', (req, res) => {
+    res.redirect('/blogs');
+});
+
+app.get('/blogs', (req, res) => {
+    // Get all blogs from DB
+    Blog.find().sort({ createdAt: -1 })     // From newest to oldest post
     .then((result) => {
-        res.send(result);
+        // Pass in to the index.ejs view
+        res.render('index', {
+            title: 'All blogs',
+            blogs: result
+        })
     })
     .catch((err) => {
         console.log(err);
-    });
-});
-
-app.get('/all-blogs', (req, res) => {
-    // It gets all documents inside the Blog collection
-    Blog.find()
-    .then((result) => {
-        res.send(result);
-    }).
-    catch((err) => {
-        console.log(err);
-    });
-});
-
-// Routes
-app.get('/', (req, res) => {
-    // Send some dummy blogs to diaplay there
-    const blogs = [
-        {title: 'Android is complicated but cool', snippet: 'So maaaaaaaaaaaaaany version this OS has'},
-        {title: 'Apple is nice but sucks', snippet: 'Owners only think of maaaaaaaaaking money and making devs poorer'},
-        {title: 'Linux is so productive', snippet: 'My choice at the moment of developing, else Apple. Windows? ...'},
-    ];
-    res.render('index', {title: 'Home', blogs});
+    })
 });
 
 app.get('/about', (req, res) => {
