@@ -13,6 +13,9 @@ app.listen(8000);
 // Some Middlewares
 app.use(morgan('dev'));
 
+// MIddleware for Static files
+app.use(express.static('public'));
+
 // Routes
 app.get('/', (req, res) => {
     // Send some dummy blogs to diaplay there
