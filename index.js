@@ -9,14 +9,14 @@ const app = express();
 const mongodb_key = require('./mongo_key')
 const dbURI = mongodb_key.mongodb_key;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then((result) => console.log('Connected to DB'))
+    .then((result) => app.listen(8000))
     .catch((err) => console.log(err));
 
 // Register View Engine
 app.set('view engine', 'ejs');  // It looks at views dir -by default- for my views
 
 // Listen for requests
-app.listen(8000);
+// Moved to the DB Connection, so I'll only listen to, when the connection succeeds
 
 // Some Middlewares
 app.use(morgan('dev'));
