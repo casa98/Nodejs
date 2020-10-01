@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const Blog = require('./models/blog');
 
 // Express app
 const app = express();
@@ -23,6 +24,24 @@ app.use(morgan('dev'));
 
 // MIddleware for Static files
 app.use(express.static('public'));
+
+// Mongoose and Mongo sandbox routes
+app.get('/add-blog', (req, res) => {
+    // Create instance of Blog document and save the blog there
+    const blog = Blog({
+        title: 'New blog',
+        snippet: 'About my new blog',
+        body: 'More about my new blog'
+    });
+    // Now save to db, could take some time, returns a promise
+    blog.save()
+    .then((result) => {
+        res.send(result);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+});
 
 // Routes
 app.get('/', (req, res) => {
