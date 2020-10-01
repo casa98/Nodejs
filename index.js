@@ -7,7 +7,8 @@ const Blog = require('./models/blog');
 const app = express();
 
 // Connect to MongoDB
-const mongodb_key = require('./mongo_key')
+const mongodb_key = require('./mongo_key');
+const { urlencoded } = require('express');
 const dbURI = mongodb_key.mongodb_key;
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((result) => app.listen(8000))
@@ -24,6 +25,9 @@ app.use(morgan('dev'));
 
 // MIddleware for Static files
 app.use(express.static('public'));
+
+// Need this for my POST request (form)
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.get('/', (req, res) => {
@@ -43,6 +47,22 @@ app.get('/blogs', (req, res) => {
     .catch((err) => {
         console.log(err);
     })
+});
+
+app.post('/blogs', (req, res) => {
+    // This contains the data from the form fields
+    console.log(req.body);
+    // Set in on the model
+    const blog = new Blog(req.body);
+    // Save it on the DB
+    blog.save()
+        .then((result) => {
+            // Successful, redirect to home page
+            res.redirect('/blogs');
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 });
 
 app.get('/about', (req, res) => {
