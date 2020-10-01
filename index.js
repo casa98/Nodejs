@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 
 // Express app
 const app = express();
@@ -10,14 +11,7 @@ app.set('view engine', 'ejs');  // It looks at views dir -by default- for my vie
 app.listen(8000);
 
 // Some Middlewares
-app.use((req, res, next) => {
-    console.log('New requests');
-    console.log('Host: ', req.hostname);
-    console.log('Path: ', req.path);
-    console.log('Method: ', req.method);
-    // Browser hangs here and doesn't continue below with routes
-    next();
-});
+app.use(morgan('dev'));
 
 // Routes
 app.get('/', (req, res) => {
