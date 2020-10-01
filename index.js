@@ -9,6 +9,16 @@ app.set('view engine', 'ejs');  // It looks at views dir -by default- for my vie
 // Listen for requests
 app.listen(8000);
 
+// Some Middlewares
+app.use((req, res, next) => {
+    console.log('New requests');
+    console.log('Host: ', req.hostname);
+    console.log('Path: ', req.path);
+    console.log('Method: ', req.method);
+    // Browser hangs here and doesn't continue below with routes
+    next();
+});
+
 // Routes
 app.get('/', (req, res) => {
     // Send some dummy blogs to diaplay there
@@ -36,5 +46,5 @@ app.get('/blogs/create', (req, res) => {
 // 404
 // It's on bottom bc is executed if none of the above routes matched (it's sequencial code, so yeah)
 app.use((req, res) => {
-    res.render('404', {title: '404'});
+    res.status(404).render('404', {title: '404'});
 });
