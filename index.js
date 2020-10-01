@@ -1,8 +1,16 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 
 // Express app
 const app = express();
+
+// Connect to MongoDB
+const mongodb_key = require('./mongo_key')
+const dbURI = mongodb_key.mongodb_key;
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then((result) => console.log('Connected to DB'))
+    .catch((err) => console.log(err));
 
 // Register View Engine
 app.set('view engine', 'ejs');  // It looks at views dir -by default- for my views
