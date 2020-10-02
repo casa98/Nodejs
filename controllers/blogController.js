@@ -5,7 +5,7 @@ const blog_index = (req, res) => {
     Blog.find().sort({ createdAt: -1 })     // From newest to oldest post
     .then((result) => {
         // Pass in to the index.ejs view
-        res.render('index', {
+        res.render('blogs/index', {
             title: 'All blogs',
             blogs: result
         })
@@ -21,7 +21,7 @@ const blog_details = (req, res) => {
     Blog.findById(id)
     .then((result) => {
         // Go to Details view
-        res.render('details', {title: 'Blog details', blog: result});
+        res.render('blogs/details', {title: 'Blog details', blog: result});
     })
     .catch((err) => {
         console.log(err);
@@ -29,7 +29,7 @@ const blog_details = (req, res) => {
 }
 
 const blog_create_get = (req, res) => {
-    res.render('create', {title: 'Create new'});
+    res.render('blogs/create', {title: 'Create new'});
 }
 
 const blog_create_post = (req, res) => {
