@@ -66,6 +66,10 @@ app.post('/blogs', (req, res) => {
         });
 });
 
+app.get('/blogs/create', (req, res) => {
+    res.render('create', {title: 'Create new'});
+});
+
 app.get('/blogs/:id', (req, res) => {
     // Get the id of the selected blog
     const id = req.params.id;
@@ -97,10 +101,6 @@ app.get('/about', (req, res) => {
 // Redirects
 app.get('/about-us', (req, res) => {
     res.redirect('/about');
-});
-
-app.get('/blogs/create', (req, res) => {
-    res.render('create', {title: 'Create new'});
 });
 
 // 404
